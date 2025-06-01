@@ -65,15 +65,15 @@ The steps for the setting up of Android machine, viewing the source code and con
 
 Now our environment is all set, so let’s explore all the vulnerabilities.
 
-\*\*this specific windows terminal will be referred to as shell.*\*\
+\*\*this specific windows terminal will be referred to as shell.*\*
 
+*
 I.  **Insecure Login**
 
     The goal is to find where the user data is being stored.
 
     On code inspection, we find that the data is being stored in the log files without any kind of encryption.
-
-![](media/dfe7b8ab839c0b3dc9efa9280815b1f4.png)
+ ![](media/dfe7b8ab839c0b3dc9efa9280815b1f4.png)
 
     So, to inspect it, we go to the terminal and type
 
@@ -81,6 +81,8 @@ I.  **Insecure Login**
 
 ![](media/6717618d6ad95f97c3fc64248528d6e9.png)
 
+
+*
 II.  **Hardcoded Issue 1**
 
     The goal is to find the directly embedded value in the source code that allows authentication.
@@ -91,6 +93,7 @@ II.  **Hardcoded Issue 1**
     Therefore, when we enter “vendorsecretkey” as the input, we are granted access. 
 ![](media/d993176ca73917bc966b5479931a60bc.png)
 
+*
 III.  **Hardcoded Issue 2**
 
     The goal is to find the directly embedded value in the source code that allows authentication.
