@@ -67,7 +67,7 @@ Now our environment is all set, so let’s explore all the vulnerabilities.
 
 \*\*this specific windows terminal will be referred to as shell.*\*
 
-*
+************************************************************
 I.  **Insecure Login**
 
     The goal is to find where the user data is being stored.
@@ -82,7 +82,7 @@ I.  **Insecure Login**
 ![](media/6717618d6ad95f97c3fc64248528d6e9.png)
 
 
-*
+************************************************************
 II.  **Hardcoded Issue 1**
 
     The goal is to find the directly embedded value in the source code that allows authentication.
@@ -93,7 +93,8 @@ II.  **Hardcoded Issue 1**
     Therefore, when we enter “vendorsecretkey” as the input, we are granted access. 
 ![](media/d993176ca73917bc966b5479931a60bc.png)
 
-*
+
+************************************************************
 III.  **Hardcoded Issue 2**
 
     The goal is to find the directly embedded value in the source code that allows authentication.
@@ -122,6 +123,8 @@ III.  **Hardcoded Issue 2**
 
 ![](media/56af422c5410e25e564821583dd88899.png)
 
+
+************************************************************
 IV.  **Insecure data Storage 1**
 
     The goal is to find where/how the credentials are being stored.
@@ -139,6 +142,8 @@ IV.  **Insecure data Storage 1**
 
 ![](media/3b61d4ed49d19ad795d460f5a20678cc.png)
 
+
+************************************************************
 V.  **Insecure Data storage 2**
 
     The goal is to find where/how the credentials are being stored.
@@ -156,6 +161,8 @@ V.  **Insecure Data storage 2**
 
 ![](media/d743bfd9a2d8c0f56ed99e1990f6387a.png)
 
+
+************************************************************
 VI.  **Insecure Data Storage 3**
 
     The goal is to find where/how the credentials are being stored.
@@ -169,6 +176,8 @@ VI.  **Insecure Data Storage 3**
 
 ![](media/9246bdce75fa5fa119ec94e5a314bee2.png)
 
+
+************************************************************
 VII.  **Insecure Data Storage 4**
 
     The goal is to find where/how the credentials are being stored.
@@ -189,6 +198,8 @@ VII.  **Insecure Data Storage 4**
 
 ![](media/cfe659e8c8b8931f49436ac9a6ac2f00.png)
 
+
+************************************************************
 VIII.  **Input Data Validation Issue 1**
 
     The goal is to find all user data without knowing any usernames.
@@ -205,6 +216,8 @@ VIII.  **Input Data Validation Issue 1**
 
 ![](media/224d9b8c6452d040c132334ca96e0453.png)
 
+
+************************************************************
 IX.  **Input Data Validation Issue 2**
 
     The goal is to access any sensitive information apart from a web URL.
@@ -220,6 +233,8 @@ IX.  **Input Data Validation Issue 2**
 
 ![](media/d0d819ed949b2a416180bc7935fab975.png)
 
+
+************************************************************
 X. **Input Data Validation Issue 3**
 
     This time the goal is to NOT to find the hidden code, but to crash the app.
@@ -241,6 +256,8 @@ X. **Input Data Validation Issue 3**
 
 ![](media/e5a326fa043eb827ae06d09fbd13a62a.png)
 
+
+************************************************************
 XI. **Access Control Issue 1**
 
     The goal is to access the API credentials outside from the app.
@@ -263,6 +280,8 @@ XI. **Access Control Issue 1**
 
 ![](media/2c0981ec1f08c8cdaa8901bb91310c48.png)
 
+
+************************************************************
 XII. **Access Control Issue 2**
 
     The goal is to find access the api credentials for ’Tveeter’ without the pin and outside the app.
@@ -287,6 +306,8 @@ XII. **Access Control Issue 2**
 
 ![](media/0baee1ebb4a0f4da4d5e218bbc7bc193.png)
 
+
+************************************************************
 XIII. **Access Control Issue 3**
 
     The goal is to access the notes of the app outside of the app.
@@ -312,6 +333,8 @@ XIII. **Access Control Issue 3**
     **content query --uricontent://jakhar.aseem.diva.provider.notesprovider/notes**
 ![](media/db507472558ba77351be66fb6f2ed4c8.png)
 
+
+************************************************************
 **Conclusion**
 
 This dynamic analysis of the ‘[DIVA](https://github.com/0xArab/diva-apk-file)’ Android application has provided valuable hands-on experience in identifying and exploiting common mobile security vulnerabilities, such as insecure logging, hardcoded secrets, and improper access controls. While ‘[DIVA](https://github.com/0xArab/diva-apk-file)’ is intentionally vulnerable for educational purposes, the issues uncovered closely mirror real-world threats faced by production Android apps.
