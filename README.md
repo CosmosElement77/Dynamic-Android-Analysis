@@ -73,13 +73,13 @@ I.  **Insecure Login**
 
     On code inspection, we find that the data is being stored in the log files without any kind of encryption.
 
-    ![](media/dfe7b8ab839c0b3dc9efa9280815b1f4.png)
+![](media/dfe7b8ab839c0b3dc9efa9280815b1f4.png)
 
     So, to inspect it, we go to the terminal and type
 
     *adb shell logcat | grep diva*
 
-    ![](media/6717618d6ad95f97c3fc64248528d6e9.png)
+![](media/6717618d6ad95f97c3fc64248528d6e9.png)
 
 II.  **Hardcoded Issue 1**
 
@@ -87,24 +87,24 @@ II.  **Hardcoded Issue 1**
 
     Upon code inspection, we find that secret key is given in plain text format and written directly in the code.
 
-    ![](media/10c3531db25b75319a2044f02186ac35.png)
+![](media/10c3531db25b75319a2044f02186ac35.png)
     Therefore, when we enter “vendorsecretkey” as the input, we are granted access. 
-    ![](media/d993176ca73917bc966b5479931a60bc.png)
+![](media/d993176ca73917bc966b5479931a60bc.png)
 
 III.  **Hardcoded Issue 2**
 
     The goal is to find the directly embedded value in the source code that allows authentication.
 
     Upon code inspection of this part, I noticed that there is a class being imported called “DivaJni”.
-    ![](media/9da7fe93dd792b809368130c87f03cc7.png)
+![](media/9da7fe93dd792b809368130c87f03cc7.png)
 
     Now, if we see the “DivaJni” class, we find that another class’s value is being called and used as the output of the “DivaJni” class.
 
-    ![](media/c5283d4a34bd9a7eccb1a7d0d1d2c7d9.png)
+![](media/c5283d4a34bd9a7eccb1a7d0d1d2c7d9.png)
 
     Since this is a library file, our first place to look for should be the “lib” folder of our apk file.
 
-    ![](media/3a1a475e965cbad4a7856a4fd58af65f.png)
+![](media/3a1a475e965cbad4a7856a4fd58af65f.png)
 
     In order to read these files, the steps are:
 
@@ -117,7 +117,7 @@ III.  **Hardcoded Issue 2**
 
     Upon testing each of them, I found the key to be: olsdfgad;lh
 
-    ![](media/56af422c5410e25e564821583dd88899.png)
+![](media/56af422c5410e25e564821583dd88899.png)
 
 IV.  **Insecure data Storage 1**
 
@@ -125,7 +125,7 @@ IV.  **Insecure data Storage 1**
 
     Upon code inspection of this part, I noticed that the ‘username’ and ‘password’ are being stored as in the “SharedPreferences” folder.
 
-    ![](media/681cef755db69752b3ca4c63cdbd4fa7.png)
+![](media/681cef755db69752b3ca4c63cdbd4fa7.png)
 
     So, I navigated to the ‘DIVA’ application folder in my android device :
 
@@ -134,7 +134,7 @@ IV.  **Insecure data Storage 1**
     Then, I moved to “jakhar.aseem.diva” directory and searched for folders using ‘ls’. I could see a folder named “shared_prefs” which had a file named 
     “jakhar.aseem.diva_preferences.xml”.
 
-    ![](media/3b61d4ed49d19ad795d460f5a20678cc.png)
+![](media/3b61d4ed49d19ad795d460f5a20678cc.png)
 
 V.  **Insecure Data storage 2**
 
@@ -142,7 +142,7 @@ V.  **Insecure Data storage 2**
 
     Upon code inspection of this part, I noticed data being stored in the form of ‘SQL’.
 
-    ![](media/7ae0b516fdc1645116933f05f274445f.png)
+![](media/7ae0b516fdc1645116933f05f274445f.png)
 
     So, I navigated to the ‘DIVA’ application folder in my android device using the same steps as mentioned in ([**IV**](#IV)). I noticed a folder named “databases” which 
     had files with ‘.db’ extension. So, I downloaded the whole folder using the command:
@@ -151,7 +151,7 @@ V.  **Insecure Data storage 2**
 
     After this, I used the [SQLite Viewer](https://inloop.github.io/sqlite-viewer/) to view each file and I found:
 
-    ![](media/d743bfd9a2d8c0f56ed99e1990f6387a.png)
+![](media/d743bfd9a2d8c0f56ed99e1990f6387a.png)
 
 VI.  **Insecure Data Storage 3**
 
@@ -159,12 +159,12 @@ VI.  **Insecure Data Storage 3**
 
     Upon code inspection of this part, I noticed that the credentials are being stored in the form of a temporary file with the initials “uinfo”.
 
-    ![](media/6e4786361e13741ac29b7d9aab323c21.png)
+![](media/6e4786361e13741ac29b7d9aab323c21.png)
 
     So, I navigated to the ‘DIVA’ application folder in my android device using the same steps as mentioned in ([**IV**](#IV)). I noticed a file with the initials “uinfo” 
     and upon looking at its contents:
 
-    ![](media/9246bdce75fa5fa119ec94e5a314bee2.png)
+![](media/9246bdce75fa5fa119ec94e5a314bee2.png)
 
 VII.  **Insecure Data Storage 4**
 
@@ -172,19 +172,19 @@ VII.  **Insecure Data Storage 4**
 
     Upon code inspection of this part, I noticed that the data was being stored in an external SDCard.
 
-    ![](media/04ce8ec8fe3f4f67c5e2b5d75e9e4b7f.png)
+![](media/04ce8ec8fe3f4f67c5e2b5d75e9e4b7f.png)
 
     However, in my case, the application was not given permission to access external storage. So, in order to check out this vulnerability, I had to give permission to the 
     ‘DIVA’ app from settings.
 
-    ![](media/121ff8710453f542329d89d1cfe1c97f.png)
+![](media/121ff8710453f542329d89d1cfe1c97f.png)
 
     After giving the permission, the user credentials were being stored without error. So, from the shell, I opened the “mnt” directory inside of which was the “sdcard” 
     directory.
 
     What the catch here was, that a ‘ls’ command would only show visible directories, so, I ran the *ls -la* and found:
 
-    ![](media/cfe659e8c8b8931f49436ac9a6ac2f00.png)
+![](media/cfe659e8c8b8931f49436ac9a6ac2f00.png)
 
 VIII.  **Input Data Validation Issue 1**
 
@@ -195,27 +195,27 @@ VIII.  **Input Data Validation Issue 1**
 
     *logcat | grep diva*
 
-    ![](media/d03a9b5334f291de441fabe845478a67.png)
+![](media/d03a9b5334f291de441fabe845478a67.png)
 
     This shows that when an input is being entered, the application calls for the file named “SQLInjectionActivity”, upon looking at the file, I found the required user 
     credentials.
 
-    ![](media/224d9b8c6452d040c132334ca96e0453.png)
+![](media/224d9b8c6452d040c132334ca96e0453.png)
 
 IX.  **Input Data Validation Issue 2**
 
     The goal is to access any sensitive information apart from a web URL.
 
     Upon looking at the source code, I could tell that the input section will take a parameter without validating it or checking any system restrictions. 
-    ![]  (media/2cbb6cc48ae0ae380607b6026506c532.png)
+![]  (media/2cbb6cc48ae0ae380607b6026506c532.png)
 
     So, that means that if I enter a file url into the input section, I can access that file. To test it, I made a dummy file.
 
-    ![](media/72cc2b708bac9760870d8025c20a4d58.png)
+![](media/72cc2b708bac9760870d8025c20a4d58.png)
 
     Now, If I enter the file path as the input parameter, I get:
 
-    ![](media/d0d819ed949b2a416180bc7935fab975.png)
+![](media/d0d819ed949b2a416180bc7935fab975.png)
 
 X. **Input Data Validation Issue 3**
 
@@ -225,7 +225,7 @@ X. **Input Data Validation Issue 3**
 
     So, I inspected the library file “libdivajni.so”, I found in ([**III**](#III)):
 
-    ![](media/856a82b44207721952e429e666fc1f07.png)
+![](media/856a82b44207721952e429e666fc1f07.png)
 
     The possibility of a usage of ‘strcpy’ makes the app vulnerable to ‘[Buffer-Overflow] 
     (https://hackerone.com/reports/2871792#:~:text=The%20vulnerability%20is%20caused%20by,memory%2C%20including%20the%20return%20address.)’.
@@ -236,7 +236,7 @@ X. **Input Data Validation Issue 3**
 
     After entering this as input, I got the system error:
 
-    ![](media/e5a326fa043eb827ae06d09fbd13a62a.png)
+![](media/e5a326fa043eb827ae06d09fbd13a62a.png)
 
 XI. **Access Control Issue 1**
 
@@ -246,11 +246,11 @@ XI. **Access Control Issue 1**
 
     *logcat | grep “jakhar.aseem.diva.action.VIEW_CREDS”*
 
-    ![](media/0407ef5754ff7fece0652c1c24003776.png)
+![](media/0407ef5754ff7fece0652c1c24003776.png)
 
     When I inspected the "APICredsActivity”, I could see the hardcoded credentials.
 
-    ![](media/0924fa2777e8846e7300760ae65a5bf5.png)
+![](media/0924fa2777e8846e7300760ae65a5bf5.png)
 
     Now that I knew which activity was used to store the credentials, I could bypass the button in the app from the shell, using:
 
@@ -258,7 +258,7 @@ XI. **Access Control Issue 1**
 
     This causes the screen to show credentials without having to interact with the app.
 
-    ![](media/2c0981ec1f08c8cdaa8901bb91310c48.png)
+![](media/2c0981ec1f08c8cdaa8901bb91310c48.png)
 
 XII. **Access Control Issue 2**
 
@@ -267,22 +267,22 @@ XII. **Access Control Issue 2**
     Upon inspection of the code, I could see, that the button started an activity “jakhar.aseem.diva.action.VIEW_CREDS2”. Therefore, upon using:
 
     *logcat | grep “jakhar.aseem.diva.action.VIEW_CREDS2”*
-    ![](media/563beb1f4440559b66b8f77c2413e612.png)
+![](media/563beb1f4440559b66b8f77c2413e612.png)
 
     When I inspected the "APICredsActivity”, I could see the hardcoded credentials. However, in this case, I also noticed a ‘boolean-check’ was there to verify if the pin 
     was there or not.
 
-    ![](media/1193f16e1d9395c95739ec39ce49c89c.png)
+![](media/1193f16e1d9395c95739ec39ce49c89c.png)
 
     Now that I knew which activity was used to store the credentials, I could bypass the button in the app from the shell, using:
 
     *am start -n  jakhar.aseem.diva/.APICreds2Activity --ez check_pin false*
 
-    ![](media/422f719ee60a46aee1f66f03107e0ea1.png)
+![](media/422f719ee60a46aee1f66f03107e0ea1.png)
 
     This causes the screen to show credentials without having to interact with the app and entering the Pin.
 
-    ![](media/0baee1ebb4a0f4da4d5e218bbc7bc193.png)
+![](media/0baee1ebb4a0f4da4d5e218bbc7bc193.png)
 
 XIII. **Access Control Issue 3**
 
@@ -290,23 +290,24 @@ XIII. **Access Control Issue 3**
 
     Upon inspection of the code, I noticed that registered pins are getting stored in “shared_prefs”:
 
-    ![](media/a5d7c356d1f732c3d6d65b666848e23e.png)
+![](media/a5d7c356d1f732c3d6d65b666848e23e.png)
 
     Therefore, when I entered the pin that was saved in “shared_prefs”, it launches the “AccessControl3NotesActivity” activity:
 
-    ![](media/7b02690facf8ec27e94a84592c2630bd.png)
+![](media/7b02690facf8ec27e94a84592c2630bd.png)
 
     Upon inspecting the “AccessControl3NotesActivity”, I noticed that after validating the pin, the notes are shown via a [content query](https://developer.android.com/guide/topics/providers/content-provider-basics) with the “NotesProvider” class:
 
-    ![](media/5582bf33f7ade5a2090e0f07a62dfa80.png)
+![](media/5582bf33f7ade5a2090e0f07a62dfa80.png)
 
     So, when I inspect the “NotesProvider” class, I find the URI:
 
-    ![](media/c9de2093f9ddbe971546deb32c815bbb.png)
+![](media/c9de2093f9ddbe971546deb32c815bbb.png)
 
     We can access the notes without the app using the command:
 
-    **content query --uricontent://jakhar.aseem.diva.provider.notesprovider/notes**![](media/db507472558ba77351be66fb6f2ed4c8.png)
+    **content query --uricontent://jakhar.aseem.diva.provider.notesprovider/notes**
+![](media/db507472558ba77351be66fb6f2ed4c8.png)
 
 **Conclusion**
 
@@ -359,3 +360,4 @@ After my analysis, I was also interested in how can one prevent such vulnerabili
     [reference code samples, tools, or community discussions ]
 
 (Jaivardhan, 2025)
+    `Kindly refer to the word file for better formatting.`
